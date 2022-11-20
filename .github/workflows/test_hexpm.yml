@@ -1,0 +1,48 @@
+---
+name: test_hexpm
+
+on:
+  push:
+
+jobs:
+  test_hex_pm_download:
+    name: Test repo.hex.pm downloads
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest", "macos-latest"]
+        x: [1, 2, 3, 4]
+        y: [1, 2, 3, 4]
+        z: [1, 2, 3, 4]
+    steps:
+      - name: Test hex.pm mirror
+        run: |
+            curl -fLo /dev/null -A setup-beam https://repo.hex.pm/installs/hex-1.x.csv
+            curl -fLo /dev/null -A setup-beam https://repo.hex.pm/installs/rebar3-1.x.csv
+            curl -fLo /dev/null -A setup-beam https://repo.hex.pm/builds/otp/ubuntu-22.04/builds.txt
+            curl -fLo /dev/null -A setup-beam https://repo.hex.pm/builds/elixir/builds.txt
+            curl -fLo /dev/null -A setup-beam https://repo.hex.pm/builds/otp/ubuntu-22.04/OTP-24.2.tar.gz &
+            curl -fLo /dev/null -A setup-beam https://repo.hex.pm/builds/otp/ubuntu-22.04/OTP-24.2.1.tar.gz &
+            curl -fLo /dev/null -A setup-beam https://repo.hex.pm/builds/otp/ubuntu-22.04/OTP-24.2.2.tar.gz &
+            wait
+            
+  test_github_download:
+    name: Test github.com downloads
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ["ubuntu-latest", "macos-latest"]
+        x: [1, 2, 3, 4]
+        y: [1, 2, 3, 4]
+        z: [1, 2, 3, 4]
+    steps:
+      - name: Test hex.pm mirror
+        run: |
+            curl -fLo /dev/null -A setup-beam https://github.com/erlang/rebar3/releases/download/3.20.0/rebar3 &
+            curl -fLo /dev/null -A setup-beam https://github.com/erlang/otp/releases/download/OTP-25.1.2/otp_win32_25.1.2.exe &
+            curl -fLo /dev/null -A setup-beam https://github.com/erlang/otp/releases/download/OTP-25.1.2/otp_win64_25.1.2.exe &
+            curl -fLo /dev/null -A setup-beam https://github.com/erlang/otp/releases/download/OTP-24.2.2/otp_win32_24.2.2.exe &
+            curl -fLo /dev/null -A setup-beam https://github.com/erlang/otp/releases/download/OTP-24.2.2/otp_win64_24.2.2.exe &
+            wait
